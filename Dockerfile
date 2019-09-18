@@ -1,6 +1,7 @@
 FROM openjdk:8
 
-RUN echo '    StrictHostKeyChecking  no' >> /etc/ssh/ssh_config
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone && \
+    echo '    StrictHostKeyChecking  no' >> /etc/ssh/ssh_config
 
 RUN apt-get update && \
      apt-get install --no-install-recommends -y \
@@ -16,11 +17,13 @@ RUN wget -O docker.tgz https://download.docker.com/linux/static/stable/x86_64/do
     rm -rf ./docker ./docker.tgz
 
 # Install Sonar Scanner
-ADD http://of9tskapv.bkt.clouddn.com/sonar-scanner-2.8.zip /usr/local
-ADD http://of9tskapv.bkt.clouddn.com/sonar-scanner-cli-3.0.3.778-linux.zip /usr/local
-RUN cd /usr/local/ && unzip sonar-scanner-2.8.zip && unzip sonar-scanner-cli-3.0.3.778-linux.zip && rm *.zip
+ADD https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744-linux.zip /usr/local
+ADD https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip /usr/local
+RUN cd /usr/local/ && unzip sonar-scanner-2.8.zip && unzip sonar-scanner-cli-4.0.0.1744-linux.zip && rm *.zip
 
 
 # Install Docker Compose
-RUN curl -L "http://of9tskapv.bkt.clouddn.com/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
+
+
