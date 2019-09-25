@@ -10,11 +10,12 @@ RUN apt-get update && \
     apt-get autoremove -y
 
 # Install Docker Client
-RUN wget -O docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-19.03.1.tgz && \
-    gunzip -c docker.tgz | tar xvf - && \
-    mv docker/docker /usr/bin/docker && \
-    chmod +x /usr/bin/docker && \
-    rm -rf ./docker ./docker.tgz
+# RUN wget -O docker.tgz https://download.docker.com/linux/static/stable/x86_64/docker-19.03.1.tgz && \
+#     gunzip -c docker.tgz | tar xvf - && \
+#     mv docker/docker /usr/bin/docker && \
+#     chmod +x /usr/bin/docker && \
+#     rm -rf ./docker ./docker.tgz
+RUN curl -s -L https://get.docker.com/builds/Linux/x86_64/docker-1.9.1 > /usr/bin/docker; chmod +x /usr/bin/docker
 
 # Install Sonar Scanner
 ADD https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.0.0.1744-linux.zip /usr/local
